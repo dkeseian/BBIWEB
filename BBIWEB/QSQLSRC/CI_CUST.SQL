@@ -1,4 +1,4 @@
-000100161108-- Retrieve the customer information.
+000100161108-- Retrieve the customer information. T
 000200161108-- Pass in the customer number or a string of customer name
 000300171013
 000400171013-- 2017-10-13  T. Detrow
