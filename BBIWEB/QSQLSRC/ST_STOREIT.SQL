@@ -1,0 +1,14 @@
+000100170419CREATE or replace PROCEDURE bbiweb.st_StoreIt
+000200170419 (IN store varchar (4), itemdesc varchar (36))
+000300160511result sets 1
+000400160511LANGUAGE SQL
+000500160511BEGIN
+000600160511DECLARE v VARCHAR(38);
+000700160511DECLARE c1 CURSOR with return FOR
+000800170419SELECT Rstore, RUPC,RCRETAILP ,RCPACK, IDESC,ISUNIT,RCUCOST,IWONUM
+000900160511FROM bblmtol.Retailtmp, bblmtol.Itemstmp
+001000170419WHERE  rstore = store and rupc = iupc and  IDESC  || IUPC || IWONUM like(v)  ;
+001100160511set v = '%' || itemdesc || '%'  ;                                      	
+001200160511OPEN c1;
+001300160511End
+001400160511

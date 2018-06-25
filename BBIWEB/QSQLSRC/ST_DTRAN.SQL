@@ -1,0 +1,11 @@
+000100161107CREATE or replace PROCEDURE bbiweb.st_dtran   (IN id int)
+000200160511result sets 1
+000300160511LANGUAGE SQL
+000400160511BEGIN
+000500160624delete from bbiweb.bbp170ah
+000600160524where transferid = id ;
+000700160624
+000800160624delete from bbiweb.bbp170ad
+000900160624where transferid = id ;
+001000160511End
+001100160511

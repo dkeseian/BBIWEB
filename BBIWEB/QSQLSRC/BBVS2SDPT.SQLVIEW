@@ -1,0 +1,44 @@
+000100161013 -- BBVS2SDPT  Store to store transfer department view
+000200161013 -- Defined 2016-10-13      By: T.Detrow
+000300161013
+000400161013 -- Joins the BBPVICAT category records for inter-company vendor 999990 to
+000500161013 -- the active GL chart of accounts and BSTORE and returns a distinct list
+000600161013 -- of transfer department codes for each retail location.
+000700161013
+000800161013 -- Location and accounting department are returned in decimal form for
+000900161013 -- compatibility with the BRP090 and BSTORE cross-references. Field names
+001000161013 -- from BRP070 and BRP090 are used for compatibility with the store transfer
+001100161013 -- web application.
+001200161013
+001300161013 Drop view BBVS2SDPT ;
+001400161013
+001500161013 Create View BBVS2SDPT as (
+001600161013    SELECT DISTINCT
+001700161013       bs.s99loc as R09STR,
+001800161013       zoned(VC.VCVCAT,5,0) as R09ADT,
+001900161013       VC.VCDESC as R07DSC
+002000161013      From plcust.bbpvicat vc
+002100161013      join gldbfa.glpct ct on ct.ctco = '001'
+002200161013       and ct.ctrc05 = substr(vc.vccogacct, 16,3)
+002300161013       and ct.ctrc06 = substr(vc.vccogacct, 20,6)
+002400161013       and ct.ctrc05 <> ' '
+002500161013      join glcust.bstore bs
+002600161013        on bs.s99co = 1
+002700161013       and bs.s99bus = zoned(trim(ct.ctrc04),5,0)
+002800161013       and bs.s99bv = zoned(trim(ct.ctrc02),2,0)
+002900161013     WHERE vc.vcvend = '999990'
+003000161013       and vc.VCVCAT <> 'ACCRUAL'
+003100161013       and ct.ctactv = '1' ) ;
+003200161013
+003300161013 label on table bbvs2sdpt is 'Store Transfer Departments' ;
+003400161013
+003500161013 Label on column bbvs2sdpt (
+003600161013    R09STR text is 'Retail store number',
+003700161013    R09ADT text is 'Department number',
+003800161013    R07DSC text is 'Description' ) ;
+003900161013
+004000161013 Label on column bbvs2sdpt (
+004100161013    R09STR      is 'Retail              Store number',
+004200161013    R09ADT      is 'Department          Number',
+004300161013    R07DSC      is 'Description' ) ;
+004400161013
